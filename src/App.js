@@ -29,14 +29,10 @@ export default class App extends React.Component {
   }
 
   handleSubmit(event) {
-console.log("EVENT:")
-console.log(event)
     this.setState({
       searchTerm: this.state.searchChange
     })
 
-//    console.log("event")
- //   console.log(event)
     event.preventDefault()
   }
 
