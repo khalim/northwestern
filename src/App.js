@@ -11,7 +11,7 @@ export default class App extends React.Component {
 
     this.state = {
       mediaType: "movie",
-      searchTerm: "black",
+      searchTerm: "agent",
       searchChange: ""
     }
     this.handleSubmit = this.handleSubmit.bind(this);
