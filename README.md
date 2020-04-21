@@ -23,3 +23,5 @@ Striping was added to ensure readability.
 TODO:
   In the src/SearchResults.js file, there are two functions with nearly identical code calling for search results.
   The desire is to break out that code into a separate reusable function and have the other two call it when a search execution is required. 
+
+  There should be a loading gif that displays during the delay while the search is executing.
