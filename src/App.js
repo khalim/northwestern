@@ -1,7 +1,6 @@
 import React from 'react'
 //import ItunesSearchForm from './ItunesSearchForm'
 import SearchResults from './SearchResults'
-import logo from './logo.svg'
 import './App.css'
 
 
@@ -12,10 +11,18 @@ export default class App extends React.Component {
     this.state = {
       mediaType: "movie",
       searchTerm: "agent",
+      mediaChange: "",
       searchChange: ""
     }
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleMediaTypeUpdate = this.handleMediaTypeUpdate.bind(this);
     this.handleSearchTermUpdate = this.handleSearchTermUpdate.bind(this);
+  }
+
+  handleMediaTypeUpdate(event) {
+    this.setState({
+      mediaType: event.target.value
+    })
   }
 
   handleSearchTermUpdate(event) {
@@ -23,13 +30,11 @@ export default class App extends React.Component {
     this.setState({
       searchChange: event.target.value
     })
-    
-//    console.log(this.state.searchTerm.length)
-    console.log(event.target.value.length)
   }
 
   handleSubmit(event) {
     this.setState({
+      mediaType: this.state.mediaType,
       searchTerm: this.state.searchChange
     })
 
@@ -40,25 +45,31 @@ export default class App extends React.Component {
     return (
       <div className="App">
         <header className="nwm-header">
-{/*          <ItunesSearchForm />
-*/}        </header>
+          APPLE's iTunes Movie Search
+        </header>
+
         <form onSubmit={this.handleSubmit}>
-        <select className='media_select'>
-          <option>Choose a media type</option>
-          <option value='books'>Books</option>
-          <option value='music'>Music</option>
-          <option value='movie'>Movie</option>
-        </select>
-        <input name='searchTerm'  onChange={this.handleSearchTermUpdate} />
-        <input type='submit' name='updateSearch' value='SEARCH' />
-          
-      </form>
+          <select className='media-select' onChange={this.handleMediaTypeUpdate} value={this.state.mediaType}>
+            <option>Choose a media type</option>
+            <option value='ebook' selected='selected'>eBook</option>
+            <option value='movie'>Movie</option>
+          </select>
+
+          <input name='searchTerm' 
+            className='search-term'
+            placeholder="Enter search term (ie agent)" 
+            onChange={this.handleSearchTermUpdate} 
+          />
+          <div className='submit' >
+            <input type='submit' name='updateSearch' value='SEARCH' />
+          </div>
+        </form>
+      <div className="list-header">List of Available {this.state.mediaType} Media </div>
+
+
         <SearchResults mediaType={this.state.mediaType} searchTerm={this.state.searchTerm} />
 
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
+
 
       </div>
     );

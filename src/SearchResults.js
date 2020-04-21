@@ -8,18 +8,11 @@ export default class SearchResults extends React.Component {
             searchTerm: "",
             resultNames: []
         }
-console.log("SearchResults Props")
-console.log(props)
-        this.someCustomFn = this.someCustomFn.bind(this)
     }
-
-    async someCustomFn() {
-
-    }
-
 
     async componentDidUpdate(prevProps) {
-        if (this.props.searchTerm !== prevProps.searchTerm) {
+        if (this.props.searchTerm !== prevProps.searchTerm ||
+            this.props.mediaType !== prevProps.mediaType) {
             // Reset resultNames to ensure there are no remnants or concatenation to it.
             this.setState({resultNames: []})
 
@@ -42,9 +35,13 @@ console.log(props)
             // sort Alphabetically
             tempList.sort()
 
+            //  Set up an error message if iTunes is clueless
+            if (tempList.length == 0) {
+                tempList = tempList.concat("Sorry, iTunes returned no items")
+            }
+
             // update resultNames with fully sorted list
             this.setState({resultNames: tempList})
-
         }
     }
 
@@ -67,14 +64,15 @@ console.log(props)
         this.setState({resultNames: tempList})
     }
 
+
     render() {
         console.log(this.props)
         const resultsList = this.state.resultNames.map(
             (item) =>
-            <li key={item}>{item}</li>
+            <li className="nwm-list-item" key={item}>{item}</li>
         )
         return (
-            <div>List of 
+            <div>
                 <ul>
                     {resultsList}
                 </ul>
