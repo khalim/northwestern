@@ -6,8 +6,6 @@ export default class SearchResults extends React.Component {
         this.state = {
             mediaType: "movie",
             searchTerm: "",
-            data: [],
-            list: [],
             resultNames: []
         }
 console.log("SearchResults Props")
@@ -17,44 +15,48 @@ console.log(props)
     async componentDidUpdate(prevProps) {
         if (this.props.searchTerm !== prevProps.searchTerm) {
 
-            this.setState({resultNames: []})
-
+            var fullList = []
+            var data = []
+            var tempList = []
+    
             const url = "/search?term=" + this.props.searchTerm + "&entity=" + this.props.mediaType
             const response = await fetch(url)
 
-            this.state.data = await response.json()
-            this.setState({list: this.state.data.results})
-console.log(this.state.list)
-
-            for (const name of this.state.list) {
-                this.setState({resultNames: this.state.resultNames.concat(name.trackName)})
-                console.log(name.trackName)
+            data = await response.json()
+            fullList = data.results
+    
+            for (const listEntry of fullList) {
+                tempList = tempList.concat([listEntry.trackName])
             }
-            this.state.resultNames.sort()
-        }
-console.log("SEARCHrESULTS PROPS:")
-console.log(this.props)
+    
+            tempList.sort()
+            this.setState({resultNames: tempList})
 
+        }
     }
 
     async componentDidMount() {
         const url = "/search?term=" + this.props.searchTerm + "&entity=" + this.props.mediaType
         const response = await fetch(url)
 
-        this.state.data = await response.json()
-        this.setState({list: this.state.data.results})
+        var fullList = []
+        var data = []
+        var tempList = []
 
-        for (const name of this.state.list) {
-            this.setState({resultNames: this.state.resultNames.concat(name.trackName)})
-            console.log(name.trackName)
+        data = await response.json()
+        fullList = data.results
+
+        for (const listEntry of fullList) {
+            tempList = tempList.concat([listEntry.trackName])
         }
-        this.state.resultNames.sort()
-        console.log(this.state.resultNames)
+
+        tempList.sort()
+        this.setState({resultNames: tempList})
     }
-    
+
     render() {
         console.log(this.props)
-        const resultsList = this.state.resultNames.sort().map(
+        const resultsList = this.state.resultNames.map(
             (item) =>
             <li key={item}>{item}</li>
         )
