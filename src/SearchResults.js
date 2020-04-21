@@ -1,15 +1,44 @@
 import React from 'react'
 
 export default class SearchResults extends React.Component {
-    state = {
-        mediaType: "movie",
-        searchTerm: "raider",
-        data: [],
-        list: [],
-        resultNames: []
+    constructor(props) {
+        super()
+        this.state = {
+            mediaType: "movie",
+            searchTerm: "",
+            data: [],
+            list: [],
+            resultNames: []
+        }
+console.log("SearchResults Props")
+console.log(props)
     }
+
+    async componentDidUpdate(prevProps) {
+        if (this.props.searchTerm !== prevProps.searchTerm) {
+
+            this.setState({resultNames: []})
+
+            const url = "/search?term=" + this.props.searchTerm + "&entity=" + this.props.mediaType
+            const response = await fetch(url)
+
+            this.state.data = await response.json()
+            this.setState({list: this.state.data.results})
+console.log(this.state.list)
+
+            for (const name of this.state.list) {
+                this.setState({resultNames: this.state.resultNames.concat(name.trackName)})
+                console.log(name.trackName)
+            }
+            this.state.resultNames.sort()
+        }
+console.log("SEARCHrESULTS PROPS:")
+console.log(this.props)
+
+    }
+
     async componentDidMount() {
-        const url = "/search?term=" + this.state.searchTerm + "&entity=" + this.state.mediaType
+        const url = "/search?term=" + this.props.searchTerm + "&entity=" + this.props.mediaType
         const response = await fetch(url)
 
         this.state.data = await response.json()
@@ -21,9 +50,10 @@ export default class SearchResults extends React.Component {
         }
         this.state.resultNames.sort()
         console.log(this.state.resultNames)
-        this.render()
     }
+    
     render() {
+        console.log(this.props)
         const resultsList = this.state.resultNames.sort().map(
             (item) =>
             <li key={item}>{item}</li>
@@ -38,14 +68,3 @@ export default class SearchResults extends React.Component {
     }
 
 }
-
-
-/*
-                    {this.state.list[0].trackName}
-                    {this.state.data.map(item => (
-                        <li key={item}></li>
-                    ))}
-                    {this.state.list.map(item => (
-                        <li key={item.trackName}>{item.trackName}</li>
-                    ))}
-*/
