@@ -69,8 +69,6 @@ export default class App extends React.Component {
 
         <SearchResults mediaType={this.state.mediaType} searchTerm={this.state.searchTerm} />
 
-
-
       </div>
     );
   }
