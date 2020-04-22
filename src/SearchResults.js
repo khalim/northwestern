@@ -29,14 +29,14 @@ export default class SearchResults extends React.Component {
             tempList = tempList.concat([listEntry.trackName])
         }
 
-console.log(tempList)
-        // return sorted, Alphabetically
-        return tempList.sort()
-
         //  Set up an error message if iTunes is clueless
         if (tempList.length == 0) {
             tempList = tempList.concat("Sorry, iTunes returned no items")
         }
+
+        // return sorted, Alphabetically
+        return tempList.sort()
+
     }
 
     async componentDidUpdate(prevProps) {
@@ -56,7 +56,6 @@ console.log(tempList)
 
 
     render() {
-        console.log(this.props)
         const resultsList = this.state.resultNames.map(
             (item) =>
             <li className="nwm-list-item" key={item}>{item}</li>
