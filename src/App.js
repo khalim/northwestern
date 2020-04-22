@@ -45,7 +45,7 @@ export default class App extends React.Component {
     return (
       <div className="App">
         <header className="nwm-header">
-          APPLE's iTunes Movie Search
+          APPLE's iTunes Movie/eBook Search
         </header>
 
         <form onSubmit={this.handleSubmit}>
@@ -68,6 +68,7 @@ export default class App extends React.Component {
 
 
         <SearchResults mediaType={this.state.mediaType} searchTerm={this.state.searchTerm} />
+
 
       </div>
     );
